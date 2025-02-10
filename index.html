@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Sorting Visualizer</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <!-- Chart.js for performance graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header with Navbar and Theme Toggle -->
+  <header class="main-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow slideIn">
+      <div class="container">
+        <a class="navbar-brand" href="#">Sorting Visualizer</a>
+        <button id="theme-toggle" class="btn btn-outline-light ml-auto">Toggle Theme</button>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="container my-4">
+      <div class="row">
+        <!-- Sidebar: Controls and Complexity Info -->
+        <aside class="col-lg-4 col-md-5 mb-4">
+          <div class="card shadow mb-3">
+            <div class="card-header bg-secondary text-white">
+              <h4 class="mb-0">Control Panel</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="algorithm-select">Select Algorithm:</label>
+                <select id="algorithm-select" class="form-control">
+                  <option value="bubble">Bubble Sort</option>
+                  <option value="insertion">Insertion Sort</option>
+                  <option value="selection">Selection Sort</option>
+                  <option value="merge">Merge Sort</option>
+                  <option value="quick">Quick Sort</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="array-input">Array Input (space‑separated):</label>
+                <input type="text" id="array-input" class="form-control" placeholder="e.g., 5 3 8 6 2" />
+              </div>
+              <button id="generate-array" class="btn btn-outline-primary btn-block mb-2">Generate Random Array</button>
+              <button id="start-sort" class="btn btn-success btn-block mb-2">Sort</button>
+              <button id="next-step" class="btn btn-info btn-block mb-2" disabled>Next Step</button>
+              <button id="reset-sort" class="btn btn-danger btn-block mb-2">Reset</button>
+              <div class="form-check mb-2">
+                <input type="checkbox" class="form-check-input" id="step-mode" />
+                <label class="form-check-label" for="step-mode">Step Mode</label>
+              </div>
+              <button id="show-explanation" class="btn btn-warning btn-block mb-2">Show Explanation</button>
+              <div id="input-error" class="mt-2 text-danger"></div>
+            </div>
+          </div>
+          <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+              <h4 class="mb-0">Time Complexity</h4>
+            </div>
+            <div class="card-body">
+              <div id="complexity-info" class="complexity-info"></div>
+            </div>
+          </div>
+        </aside>
+        
+        <!-- Main Section: Tabbed Content -->
+        <section class="col-lg-8 col-md-7">
+          <!-- Navigation Tabs -->
+          <ul class="nav nav-tabs mb-3" id="pageTabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="visualizer-tab" data-toggle="tab" href="#visualizer" role="tab" aria-controls="visualizer" aria-selected="true">Visualizer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="performance-tab" data-toggle="tab" href="#performance" role="tab" aria-controls="performance" aria-selected="false">Performance</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="pageTabsContent">
+            <!-- Visualizer Tab -->
+            <div class="tab-pane fade show active" id="visualizer" role="tabpanel" aria-labelledby="visualizer-tab">
+              <div class="card shadow mb-4">
+                <div class="card-header bg-secondary text-white">
+                  <h4 class="mb-0">Visualization</h4>
+                </div>
+                <div class="card-body">
+                  <div id="array-container" class="array-container"></div>
+                  <div class="stats mt-3">
+                    <div class="row text-center">
+                      <div class="col">
+                        <h5>Comparisons</h5>
+                        <p id="comparisons">0</p>
+                      </div>
+                      <div class="col">
+                        <h5>Swaps</h5>
+                        <p id="swaps">0</p>
+                      </div>
+                      <div class="col">
+                        <h5>Time (ms)</h5>
+                        <p id="time-taken">0</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                  <h4 class="mb-0">Pseudocode</h4>
+                </div>
+                <div class="card-body">
+                  <pre id="pseudocode" class="pseudocode"></pre>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Performance Tab -->
+            <div class="tab-pane fade" id="performance" role="tabpanel" aria-labelledby="performance-tab">
+              <div class="card shadow mb-4">
+                <div class="card-header bg-secondary text-white">
+                  <h4 class="mb-0">Performance Graph</h4>
+                </div>
+                <div class="card-body">
+                  <canvas id="performanceChart"></canvas>
+                </div>
+              </div>
+              <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                  <h4 class="mb-0">Log Panel</h4>
+                </div>
+                <div class="card-body" id="log-panel" style="max-height: 250px; overflow-y: auto;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Algorithm Explanation Modal -->
+  <div class="modal fade" id="explanationModal" tabindex="-1" role="dialog" aria-labelledby="explanationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title" id="explanationModalLabel">Algorithm Explanation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="algorithm-explanation">
+          <!-- Detailed explanation content will be inserted here -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="footer bg-primary text-white text-center py-3">
+    &copy; 2025 Advanced Sorting Visualizer. All Rights Reserved.
+  </footer>
+  
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+</body>
+</html>
