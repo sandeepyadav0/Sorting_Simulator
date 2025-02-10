@@ -1,8 +1,8 @@
-# Advanced Sorting Visualizer
+# Sorting Simulator
 
 ## Overview
 
-Advanced Sorting Visualizer is a responsive, multi-page web application that demonstrates various sorting algorithms through animated visualizations. 
+Sorting Simulator is a responsive, multi-page web application that demonstrates various sorting algorithms through animated visualizations. 
 The project not only visually explains how each algorithm works but also provides real-time performance metrics and logging. 
 It includes interactive features such as step-by-step execution, pseudocode highlighting, theme toggling (light/dark), and performance analytics using Chart.js.
 
