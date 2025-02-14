@@ -1,4 +1,4 @@
-/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Grechen+Fuemen&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 body {
     margin: 0;
     padding: 0;
@@ -10,6 +10,11 @@ body {
   .main-header .navbar {
     background: #2c3e50; /* Deep navy */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .navbar-brand{
+    font-family: "Grechen Fuemen", serif;
+    font-weight: 900;
   }
   
   /* Main Content */
