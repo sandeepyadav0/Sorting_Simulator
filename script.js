@@ -373,11 +373,6 @@ async function partition(start, end) {
   return i;
 }
 
-// Theme Toggle
-document.getElementById("theme-toggle").addEventListener("click", () => {
-  document.body.classList.toggle("dark-theme");
-});
-
 // "Show Explanation" Modal
 document.getElementById("show-explanation").addEventListener("click", () => {
   const algo = document.getElementById("algorithm-select").value;
