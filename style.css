@@ -142,7 +142,7 @@ aside {
     to { transform: translateX(0); }
 }
 .slideIn {
-    animation: slideIn 0.8s ease-out;
+    animation: none !important;
 }
 
 /* Responsive Adjustments */
