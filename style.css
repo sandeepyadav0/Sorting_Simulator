@@ -142,7 +142,7 @@ aside {
     to { transform: translateX(0); }
 }
 .slideIn {
-    animation: none !important;
+    animation: slideIn 0.8s ease-out;
 }
 
 /* Responsive Adjustments */
@@ -157,4 +157,18 @@ aside {
         font-size: 0.85rem;
         height: 200px;
     }
+}
+
+/* Desktop-specific adjustments */
+@media (min-width: 1200px) {
+  /* Center main container on large screens */
+  .main-content .container {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Adjust array container height on desktops */
+  .array-container {
+    height: 450px;
+  }
 }
